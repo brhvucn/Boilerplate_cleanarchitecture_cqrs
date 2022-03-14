@@ -8,6 +8,8 @@ This is a boilerplate project to show the clean architecture in a simple setup a
 
 [A Brief Intro to Clean Architecture, Clean DDD and CQRS](https://blog.jacobsdata.com/2020/02/19/a-brief-intro-to-clean-architecture-clean-ddd-and-cqrs)
 
+[Are CQRS Commands a part of the Domain Model](https://enterprisecraftsmanship.com/posts/cqrs-commands-part-domain-model/)
+
 [CQRS Pattern](https://docs.microsoft.com/en-us/azure/architecture/patterns/cqrs)
 
 [Value Object: A Better implementation](https://enterprisecraftsmanship.com/posts/value-object-better-implementation/)
