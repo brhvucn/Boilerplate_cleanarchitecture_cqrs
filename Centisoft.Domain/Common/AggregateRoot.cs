@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Centisoft.Domain.Common
 {
-    public abstract class AggregateRoot<TKey>
-         : Entity<TKey> where TKey : struct
+    public abstract class AggregateRoot : Entity
     {
 
     }
