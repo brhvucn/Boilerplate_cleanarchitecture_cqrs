@@ -31,9 +31,19 @@ namespace Centisoft.Domain.Common
             return new Result(false, message);
         }
 
+        public static Result Fail(string message, Exception ex)
+        {
+            return new Result(false, message + $"({ex.Message}");
+        }
+
         public static Result<T> Fail<T>(string message)
         {
             return new Result<T>(default(T), false, message);
+        }
+
+        public static Result<T> Fail<T>(string message, Exception ex)
+        {
+            return new Result<T>(default(T), false, message + $" ({ex.Message}");
         }
 
         public static Result Ok()

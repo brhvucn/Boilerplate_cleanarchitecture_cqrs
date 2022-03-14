@@ -2,7 +2,7 @@ using Centisoft.Domain.ValueObjects;
 using Centisoft.UnitTest.Helpers.String;
 using NUnit.Framework;
 
-namespace Centisoft.Domain.UnitTests
+namespace Centisoft.Domain.ValueObjects.UnitTests
 {
     public class EmailTests
     {
