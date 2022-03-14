@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Centisoft.Domain.ValueObjects
 {
-    public class Email : ValueObject<Email>
+    public class Email : ValueObject
     {
         public string Value { get; private set; }
 
@@ -44,32 +44,9 @@ namespace Centisoft.Domain.ValueObjects
             return Result.Ok<Email>(new Email(email));
         }
 
-        protected override bool EqualsCore(Email other)
+        protected override IEnumerable<object> GetEqualityComponents()
         {
-            return Value.Equals(other.Value, StringComparison.InvariantCultureIgnoreCase);
-        }
-
-        protected override int GetHashCodeCore()
-        {
-            return Value.GetHashCode();
-        }
-
-        /// <summary>
-        /// Supporting the ability to implicitly convert an Email into a string
-        /// </summary>
-        /// <param name="email"></param>
-        public static implicit operator string(Email email)
-        {
-            return email.Value;
-        }
-
-        /// <summary>
-        /// Supporting the ability to explicitly convert a string into an Email
-        /// </summary>
-        /// <param name="email"></param>
-        public static explicit operator Email(string email)
-        {
-            return Create(email).Value;
+            yield return Value;
         }
     }
 }
