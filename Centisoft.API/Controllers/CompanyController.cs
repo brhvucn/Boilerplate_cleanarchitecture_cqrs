@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Centisoft.API.Utilities;
 using Centisoft.Application.Features.Company.Dto;
 using Centisoft.Application.Features.Company.Queries.GetAllCompanies;
+using Centisoft.Application.Features.Company.Queries.GetCompany;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Centisoft.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/companies")]
     [ApiController]
-    public class CompanyController : ControllerBase
+    public class CompanyController : BaseController
     {
         private IMapper mapper;
         private IMediator mediator;
@@ -22,10 +24,19 @@ namespace Centisoft.API.Controllers
         }
 
         [HttpGet]
-        public async Task<List<CompanyDto>> GetCompanies()
+        public async Task<ActionResult<List<CompanyDto>>> GetCompanies()
         {
             GetAllCompaniesQuery query = new GetAllCompaniesQuery();
-            return await this.mediator.Send(query);
+            var result = await this.mediator.Send(query);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<ActionResult<CompanyDto>> GetCompany(int id)
+        {
+            var result = await this.mediator.Send(new GetCompanyQuery(id));
+            return Ok(result);
         }
     }
 }

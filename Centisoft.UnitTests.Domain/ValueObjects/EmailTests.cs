@@ -41,5 +41,24 @@ namespace Centisoft.UnitTests.Domain.ValueObjects
             var email = Email.Create(StringRandom.GetRandomString(101));
             Assert.IsTrue(email.IsFailure);
         }
+
+        [TestMethod]
+        public void Create_Two_Emails_Expect_Equal()
+        {
+            string email = "test@test.dk";
+            Email email1 = Email.Create(email).Value;
+            Email email2 = Email.Create(email).Value;
+            Assert.AreEqual(email1, email2);
+        }
+
+        [TestMethod]
+        public void Create_Two_Emails_Expect_Different()
+        {
+            string email1 = "test1@test.dk";
+            string email2 = "test2@test.dk";
+            var testEmail1 = Email.Create(email1).Value;
+            var testEmail2 = Email.Create(email2).Value;
+            Assert.AreNotEqual(testEmail1, testEmail2);
+        }
     }
 }

@@ -1,7 +1,7 @@
 using Centisoft.Application.Features.Company.Queries.GetAllCompanies;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Centisoft.UnitTests.Application
+namespace Centisoft.UnitTests.Application.Features.Company.Queries
 {
     [TestClass]
     public class GetCompaniesQueryTest

@@ -24,7 +24,7 @@ namespace Centisoft.Persistence.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<T> GetByIdAsync(Guid id)
+        public Task<T> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }

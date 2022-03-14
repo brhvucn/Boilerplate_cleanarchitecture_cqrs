@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Centisoft.API.Utilities;
 
 namespace Centisoft.API
 {
@@ -34,7 +35,11 @@ namespace Centisoft.API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Centisoft.API", Version = "v1" });
-            });            
+            });
+            services.AddCors(options =>
+            {
+                options.AddPolicy("Open", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            });
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddApplicationServices();
         }
@@ -42,6 +47,8 @@ namespace Centisoft.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors("Open");
+           
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -59,6 +66,7 @@ namespace Centisoft.API
             {
                 endpoints.MapControllers();
             });
+            app.UseMiddleware<ExceptionHandler>(); //Handling all exceptions here
         }
     }
 }
