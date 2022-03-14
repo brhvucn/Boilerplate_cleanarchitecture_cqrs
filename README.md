@@ -11,3 +11,5 @@ This is a boilerplate project to show the clean architecture in a simple setup a
 [CQRS Pattern](https://docs.microsoft.com/en-us/azure/architecture/patterns/cqrs)
 
 [Value Object: A Better implementation](https://enterprisecraftsmanship.com/posts/value-object-better-implementation/)
+
+[Aggregate Root Design: Separate behavior and data for persistence](https://www.youtube.com/watch?v=GtWVGJp061A)
