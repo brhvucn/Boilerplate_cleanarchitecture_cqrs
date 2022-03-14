@@ -1,3 +1,5 @@
+using Centisoft.Application.Contracts.Persistence;
+using Centisoft.Persistence.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -7,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Centisoft.Application;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +34,9 @@ namespace Centisoft.API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Centisoft.API", Version = "v1" });
-            });
+            });            
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddApplicationServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
