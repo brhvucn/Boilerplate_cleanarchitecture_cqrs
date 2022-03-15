@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Centisoft.Application.Contracts.Persistence
 {
-    public interface IAsyncRepository<T>
+    public interface IAsyncRepository<T> where T : AggregateRoot
     {
         Task<Result<T>> GetByIdAsync(int id);
         Task<int> AddAsync(T entity);
