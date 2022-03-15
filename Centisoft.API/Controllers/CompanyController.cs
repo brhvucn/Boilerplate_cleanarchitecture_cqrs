@@ -2,6 +2,7 @@
 using Centisoft.API.Utilities;
 using Centisoft.Application;
 using Centisoft.Application.Features.Company.Commands.CreateCompany;
+using Centisoft.Application.Features.Company.Commands.DeleteCompany;
 using Centisoft.Application.Features.Company.Dto;
 using Centisoft.Application.Features.Company.Queries.GetAllCompanies;
 using Centisoft.Application.Features.Company.Queries.GetCompany;
@@ -50,6 +51,14 @@ namespace Centisoft.API.Controllers
         public async Task<IActionResult> GetCompany(int id)
         {
             var result = await this.dispatcher.Dispatch(new GetCompanyQuery(id));
+            return FromResult(result);
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> DeleteCompany(int id)
+        {
+            var result = await this.dispatcher.Dispatch(new DeleteCompanyCommand(id));
             return FromResult(result);
         }
     }
