@@ -7,6 +7,9 @@ This solution uses the following technologies:
 * [FluentValidation](https://www.nuget.org/packages/FluentValidation/) to ensure validation rules
 * [EnsureThat](https://www.nuget.org/packages/EnsureThatCore/) to create guard clauses
 
+## About the Project
+CentiSoft is a small company that builds a CRM system and sells it to their customers. 
+
 ## Litterature
 [The Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
 
