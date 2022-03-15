@@ -27,13 +27,19 @@ namespace Centisoft.Application.Features.Company.Queries.GetAllCompanies
             var companies = await this.companyRepository.GetAllAsync();
             foreach (var company in companies)
             {
-                var mappedCompany = mapper.Map<CompanyDto>(company);
+                CompanyDto companyDto = new CompanyDto();
+                companyDto.Id = company.Id;
+                companyDto.Name = company.Name;
+                companyDto.Street = company.Address.Street;
+                companyDto.City = company.Address.City;
+                companyDto.ZipCode = company.Address.ZipCode;
+                companyDto.Email = company.Email.Value;
                 //handle the contacts
                 foreach (var contact in company.Contacts)
                 {
                     var mappedContact = mapper.Map<ContactDto>(contact);
                 }
-                result.Add(mappedCompany);
+                result.Add(companyDto);
             }
             return new CollectionResponseBase<CompanyDto>()
             {

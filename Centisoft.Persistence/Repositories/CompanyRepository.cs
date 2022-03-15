@@ -1,6 +1,7 @@
 ﻿using Centisoft.Application.Contracts.Persistence;
 using Centisoft.Domain.AggregateRoots;
 using Centisoft.Domain.Common;
+using Centisoft.Domain.ValueObjects;
 using Centisoft.Persistence.Common;
 using Dapper;
 using System;
@@ -36,8 +37,34 @@ namespace Centisoft.Persistence.Repositories
         {
             using (var connection = dataContext.CreateConnection())
             {
-                var query = $"select * from {tableName}";
-                return await connection.QueryAsync<Company>(query);
+                List<Company> result = new List<Company>();
+                var query = $"select Id, Name from {tableName}";
+                var companies = await connection.QueryAsync<Company>(query);
+                foreach(var company in companies)
+                {
+                    company.Address = await GetAddressFromCompanyId(company.Id);
+                    company.Email = await GetEmailFromCompanyId(company.Id);
+                    result.Add(company);
+                }
+                return result;
+            }
+        }
+
+        private async Task<Address> GetAddressFromCompanyId(int companyId)
+        {
+            using(var connection = dataContext.CreateConnection())
+            {
+                string query = $"select * from {tableName} where id = @id";
+                return await connection.QuerySingleAsync<Address>(query, new { id = companyId });
+            }
+        }
+
+        private async Task<Email> GetEmailFromCompanyId(int companyId)
+        {
+            using(var connection = dataContext.CreateConnection())
+            {
+                string query = $"select Email as Value from {tableName} where id = @id";
+                return await connection.QuerySingleAsync<Email>(query, new { id = companyId });
             }
         }
 
@@ -45,7 +72,7 @@ namespace Centisoft.Persistence.Repositories
         {
             using (var connection = dataContext.CreateConnection())
             {
-                string query = $"select * from {tableName} where id = @id";
+                string query = $"select Street, City, ZipCode from {tableName} where id = @id";
                 return await connection.QuerySingleAsync<Company>(query, new { id });
             }
         }

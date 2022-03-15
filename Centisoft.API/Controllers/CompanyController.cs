@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Centisoft.API.Utilities;
 using Centisoft.Application;
-using Centisoft.Application.Features.Company.Commands;
+using Centisoft.Application.Features.Company.Commands.CreateCompany;
 using Centisoft.Application.Features.Company.Dto;
 using Centisoft.Application.Features.Company.Queries.GetAllCompanies;
 using Centisoft.Application.Features.Company.Queries.GetCompany;

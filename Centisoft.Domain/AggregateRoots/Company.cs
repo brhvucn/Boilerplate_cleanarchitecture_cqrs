@@ -24,7 +24,10 @@ namespace Centisoft.Domain.AggregateRoots
             this.Contacts = new List<Contact>();
         }
 
-        public Company() { } //for ORM
+        public Company() 
+        {
+            this.Contacts = new List<Contact>();
+        } //for ORM
 
         public string Name { get; set; }    
         public Address Address { get; set; }

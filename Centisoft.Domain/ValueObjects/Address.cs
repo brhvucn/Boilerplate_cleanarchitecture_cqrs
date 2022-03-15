@@ -21,6 +21,8 @@ namespace Centisoft.Domain.ValueObjects
             ZipCode = zipcode;
         }
 
+        public Address() { } //for ORM
+
         public static Result<Address> Create(string street, string city, string zipcode)
         {
                 Ensure.That(street, nameof(street)).IsNotNullOrEmpty();

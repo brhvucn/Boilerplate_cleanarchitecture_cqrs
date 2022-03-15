@@ -10,6 +10,7 @@ namespace Centisoft.Domain.ValueObjects
 {
     public class Email : ValueObject
     {
+        public Email() { }
         public string Value { get; private set; }
 
         /// <summary>
@@ -42,6 +43,24 @@ namespace Centisoft.Domain.ValueObjects
                 return Result.Fail<Email>(Errors.General.UnexpectedValue(nameof(email)));
             }
             return Result.Ok<Email>(new Email(email));
+        }
+
+        /// <summary>
+        /// Supporting the ability to implicitly convert an Email into a string
+        /// </summary>
+        /// <param name="email"></param>
+        public static implicit operator string(Email email)
+        {
+            return email.Value;
+        }
+
+        /// <summary>
+        /// Supporting the ability to explicitly convert a string into an Email
+        /// </summary>
+        /// <param name="email"></param>
+        public static explicit operator Email(string email)
+        {
+            return Create(email).Value;
         }
 
         protected override IEnumerable<object> GetEqualityComponents()

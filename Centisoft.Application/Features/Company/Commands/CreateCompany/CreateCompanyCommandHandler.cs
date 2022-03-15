@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Centisoft.Application.Features.Company.Commands
+namespace Centisoft.Application.Features.Company.Commands.CreateCompany
 {
     public class CreateCompanyCommandHandler : ICommandHandler<CreateCompanyCommand>
     {

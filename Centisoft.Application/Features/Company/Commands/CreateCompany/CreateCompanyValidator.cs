@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Centisoft.Application.Features.Company.Commands
+namespace Centisoft.Application.Features.Company.Commands.CreateCompany
 {
     public class CreateCompanyValidator : AbstractValidator<CreateCompanyCommand>
     {
