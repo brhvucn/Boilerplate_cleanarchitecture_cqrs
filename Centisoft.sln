@@ -21,11 +21,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Centisoft.Persistence", "Ce
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Centisoft.API", "Centisoft.API\Centisoft.API.csproj", "{6B584F6D-B3C5-4A3F-A502-9C8E19326C7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Centisoft.UnitTest.Helpers", "Centisoft.UnitTest.Helpers\Centisoft.UnitTest.Helpers.csproj", "{144A39B2-08EA-416E-A7A4-747F45D2D6E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Centisoft.UnitTest.Helpers", "Centisoft.UnitTest.Helpers\Centisoft.UnitTest.Helpers.csproj", "{144A39B2-08EA-416E-A7A4-747F45D2D6E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Centisoft.UnitTests.Domain", "Centisoft.UnitTests.Domain\Centisoft.UnitTests.Domain.csproj", "{955631F1-D5FE-474A-B724-0A787A7FD187}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Centisoft.UnitTests.Domain", "Centisoft.UnitTests.Domain\Centisoft.UnitTests.Domain.csproj", "{955631F1-D5FE-474A-B724-0A787A7FD187}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Centisoft.UnitTests.Application", "Centisoft.UnitTests.Application\Centisoft.UnitTests.Application.csproj", "{CB578299-5CFD-474B-8625-19237C63223A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Centisoft.UnitTests.Application", "Centisoft.UnitTests.Application\Centisoft.UnitTests.Application.csproj", "{CB578299-5CFD-474B-8625-19237C63223A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL", "SQL", "{6A76CEBA-7E01-428C-82D8-0D7DFB321CD6}"
+	ProjectSection(SolutionItems) = preProject
+		database.sql = database.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
