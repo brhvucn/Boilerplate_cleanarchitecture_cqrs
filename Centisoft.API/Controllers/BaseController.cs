@@ -1,7 +1,9 @@
 ﻿using Centisoft.API.Utilities;
 using Centisoft.Domain.Common;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Centisoft.API.Controllers
@@ -30,7 +32,7 @@ namespace Centisoft.API.Controllers
             if (result.Failure)
                 return StatusCodeFromResult(result);
             return base.Ok(Envelope.Ok());
-        }
+        }       
 
         protected IActionResult FromResult<T>(Result<T> result)
         {

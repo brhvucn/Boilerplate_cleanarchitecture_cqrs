@@ -17,10 +17,10 @@ namespace Centisoft.Persistence.Repositories
         public CompanyRepository(DataContext context) : base(TableNames.CompanyTableName, context) { }
         public async Task<int> AddAsync(Company entity)
         {
-            using(var connection = dataContext.CreateConnection())
+            using (var connection = dataContext.CreateConnection())
             {
                 string query = $"insert into {tableName} (Name, Street, City, ZipCode, Email) OUTPUT INSERTED.Id values (@name, @street, @city, @zipcode, @email)";
-                return await connection.QuerySingleAsync<int>(query, new { name = entity.Name, street=entity.Address.Street, city=entity.Address.City, zipcode = entity.Address.ZipCode, email = entity.Email.Value });
+                return await connection.QuerySingleAsync<int>(query, new { name = entity.Name, street = entity.Address.Street, city = entity.Address.City, zipcode = entity.Address.ZipCode, email = entity.Email.Value });
             }
         }
 
@@ -40,7 +40,7 @@ namespace Centisoft.Persistence.Repositories
                 List<Company> result = new List<Company>();
                 var query = $"select Id, Name from {tableName}";
                 var companies = await connection.QueryAsync<Company>(query);
-                foreach(var company in companies)
+                foreach (var company in companies)
                 {
                     company.Address = await GetAddressFromCompanyId(company.Id);
                     company.Email = await GetEmailFromCompanyId(company.Id);
@@ -52,7 +52,7 @@ namespace Centisoft.Persistence.Repositories
 
         private async Task<Address> GetAddressFromCompanyId(int companyId)
         {
-            using(var connection = dataContext.CreateConnection())
+            using (var connection = dataContext.CreateConnection())
             {
                 string query = $"select * from {tableName} where id = @id";
                 return await connection.QuerySingleAsync<Address>(query, new { id = companyId });
@@ -61,7 +61,7 @@ namespace Centisoft.Persistence.Repositories
 
         private async Task<Email> GetEmailFromCompanyId(int companyId)
         {
-            using(var connection = dataContext.CreateConnection())
+            using (var connection = dataContext.CreateConnection())
             {
                 string query = $"select Email as Value from {tableName} where id = @id";
                 return await connection.QuerySingleAsync<Email>(query, new { id = companyId });
@@ -82,9 +82,33 @@ namespace Centisoft.Persistence.Repositories
         /// </summary>
         /// <param name="entity"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void UpdateAsync(Company entity)
+        public async void UpdateAsync(Company entity)
         {
-            throw new NotImplementedException();
+            using (var connection = dataContext.CreateConnection())
+            {
+                string command = $"update {tableName} set name = @name where id = @id";
+                await connection.ExecuteAsync(command, new { name = entity.Name, id = entity.Id });
+                await Task.Run(() => UpdateAddressAsync(entity.Address, entity.Id));
+                await Task.Run(() => UpdateEmailAsync(entity.Email, entity.Id));
+            }
+        }
+
+        private async void UpdateAddressAsync(Address address, int companyId)
+        {
+            using (var connection = dataContext.CreateConnection())
+            {
+                string command = $"update {tableName} set street = @street, city = @city, zipcode = @zipcode where id = @id";
+                await connection.ExecuteAsync(command, new { street = address.Street, city = address.City, zipcode = address.ZipCode, id = companyId });
+            }
+        }
+
+        private async void UpdateEmailAsync(Email email, int companyId)
+        {
+            using (var connection = dataContext.CreateConnection())
+            {
+                string command = $"update {tableName} set email = @email where id = @id";
+                await connection.ExecuteAsync(command, new { email = email.Value, id = companyId });
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Centisoft.Domain.Common
 {
     public abstract class Entity
     {
-        public int Id { get; private set; }
+        public int Id { get; protected set; }
         public DateTime LastModified { get; set; }
         public DateTime Created { get; set; }
 

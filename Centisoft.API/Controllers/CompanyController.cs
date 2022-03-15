@@ -3,9 +3,11 @@ using Centisoft.API.Utilities;
 using Centisoft.Application;
 using Centisoft.Application.Features.Company.Commands.CreateCompany;
 using Centisoft.Application.Features.Company.Commands.DeleteCompany;
+using Centisoft.Application.Features.Company.Commands.UpdateCompany;
 using Centisoft.Application.Features.Company.Dto;
 using Centisoft.Application.Features.Company.Queries.GetAllCompanies;
 using Centisoft.Application.Features.Company.Queries.GetCompany;
+using Centisoft.Domain.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -41,7 +43,7 @@ namespace Centisoft.API.Controllers
                 companyRequest.Street,
                 companyRequest.City,
                 companyRequest.ZipCode,
-                companyRequest.Email);           
+                companyRequest.Email);
             var result = await this.dispatcher.Dispatch(command);
             return FromResult(result);
         }
@@ -59,6 +61,21 @@ namespace Centisoft.API.Controllers
         public async Task<IActionResult> DeleteCompany(int id)
         {
             var result = await this.dispatcher.Dispatch(new DeleteCompanyCommand(id));
+            return FromResult(result);
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> UpdateCompany(UpdateCompanyRequest request)
+        {
+            UpdateCompanyCommand updateCommand = new UpdateCompanyCommand(
+                request.CompanyId,
+                request.Name,
+                request.Street,
+                request.City,
+                request.ZipCode,
+                request.Email);
+            var result = await dispatcher.Dispatch(updateCommand);
             return FromResult(result);
         }
     }

@@ -12,16 +12,21 @@ namespace Centisoft.Domain.AggregateRoots
 {
     public class Company : AggregateRoot
     {
-        public Company(string name, Address address, Email email)
+        public Company(int id, string name, Address address, Email email)
         {
             //Address and Email cannot be invalid, so no guard check
             Ensure.That(name, nameof(name)).IsNotNullOrEmpty();
             Ensure.That(address, nameof(address)).IsNotNull();
             Ensure.That(email, nameof(email)).IsNotNull();
+            this.Id = id;
             this.Name = name;
             this.Address = address;
             this.Email = email;
             this.Contacts = new List<Contact>();
+        }
+        public Company(string name, Address address, Email email) : this(0, name, address, email)
+        {
+            
         }
 
         public Company() 
