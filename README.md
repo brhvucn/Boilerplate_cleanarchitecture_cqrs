@@ -1,5 +1,11 @@
 # Boilerplate Project Clean Architecture & CQRS
-This is a boilerplate project to show the clean architecture in a simple setup and the cqrs implementation as well.
+This is a boilerplate project to show Domain Driven Design (DDD), CQRS and clean architecture in a simple setup.
+
+This solution uses the following technologies:
+* Dapper to access the database
+* MediatR to dispatch commands and queries
+* FluentValidation to ensure validation rules
+* EnsureThat to create guard clauses
 
 ## Litterature
 [The Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
