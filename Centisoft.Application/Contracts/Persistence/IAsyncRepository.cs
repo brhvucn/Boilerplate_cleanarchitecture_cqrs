@@ -12,6 +12,6 @@ namespace Centisoft.Application.Contracts.Persistence
         Task<Result<T>> GetByIdAsync(int id);
         Task<int> AddAsync(T entity);
         void UpdateAsync(T entity);
-        void DeleteAsync(T entity);
+        void DeleteAsync(int id);
     }
 }

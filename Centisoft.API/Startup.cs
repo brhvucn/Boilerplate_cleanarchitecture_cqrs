@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Centisoft.API.Utilities;
+using Centisoft.Persistence;
 
 namespace Centisoft.API
 {
@@ -42,6 +43,7 @@ namespace Centisoft.API
             });
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<IDispatcher, Dispatcher>();
+            services.AddScoped<DataContext, DataContext>();
             services.AddApplicationServices();
         }
 

@@ -16,6 +16,8 @@ namespace Centisoft.Domain.AggregateRoots
         {
             //Address and Email cannot be invalid, so no guard check
             Ensure.That(name, nameof(name)).IsNotNullOrEmpty();
+            Ensure.That(address, nameof(address)).IsNotNull();
+            Ensure.That(email, nameof(email)).IsNotNull();
             this.Name = name;
             this.Address = address;
             this.Email = email;

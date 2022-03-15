@@ -13,22 +13,21 @@ namespace Centisoft.Application
     {
         public Dispatcher(IMediator mediator)
         {
-            Mediator = Ensure.Any.IsNotNull(mediator, nameof(mediator));
+            Ensure.That(mediator).IsNotNull();
+            Mediator = mediator;
         }
 
         public IMediator Mediator { get; }
 
         public Task<Result<T>> Dispatch<T>(IQuery<T> query)
         {
-            Ensure.Any.IsNotNull(query, nameof(query));
-
+            Ensure.That(query, nameof(query)).IsNotNull();
             return Mediator.Send(query);
         }
 
         public Task<Result> Dispatch(ICommand command)
         {
-            Ensure.Any.IsNotNull(command, nameof(command));
-
+           Ensure.That(command, nameof(command)).IsNotNull();
             return Mediator.Send(command);
         }
     }
