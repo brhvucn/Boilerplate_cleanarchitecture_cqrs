@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Centisoft.Domain.ValueObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,85 +9,86 @@ namespace Centisoft.Domain.Common
 {
     public class Result
     {
-        public bool IsSuccess { get; }
-        public string Error { get; set; }
-        public bool IsFailure => !IsSuccess;
+        public bool Success { get; private set; }
+        public Error Error { get; private set; }
 
-        protected Result(bool isSuccess, string error)
+        public bool Failure
         {
-            if (isSuccess && error != string.Empty)
-            {
-                throw new InvalidOperationException();
-            }
-            if (!isSuccess && error == string.Empty)
-            {
-                throw new InvalidOperationException();
-            }
-            IsSuccess = isSuccess;
+            get { return !Success; }
+        }
+
+        protected Result(bool success, Error error)
+        {
+            Success = success;
             Error = error;
         }
 
-        public static Result Fail(string message)
+        public static Result Fail(Error error)
         {
-            return new Result(false, message);
+            return new Result(false, error);
         }
 
-        public static Result Fail(string message, Exception ex)
+        public static Result<T> Fail<T>(Error error)
         {
-            return new Result(false, message + $"({ex.Message}");
-        }
-
-        public static Result<T> Fail<T>(string message)
-        {
-            return new Result<T>(default(T), false, message);
-        }
-
-        public static Result<T> Fail<T>(string message, Exception ex)
-        {
-            return new Result<T>(default(T), false, message + $" ({ex.Message}");
+            return new Result<T>(default, false, error);
         }
 
         public static Result Ok()
         {
-            return new Result(true, string.Empty);
+            return new Result(true, null);
         }
 
         public static Result<T> Ok<T>(T value)
         {
-            return new Result<T>(value, true, string.Empty);
+            return new Result<T>(value, true, null);
         }
 
         public static Result Combine(params Result[] results)
         {
             foreach (Result result in results)
             {
-                if (result.IsFailure)
-                {
+                if (result.Failure)
                     return result;
-                }
             }
+
             return Ok();
         }
+
     }
+
 
     public class Result<T> : Result
     {
-        private readonly T value;
+        private T _value;
+
         public T Value
         {
             get
             {
-                if (!IsSuccess)
-                {
-                    throw new InvalidOperationException();
-                }
-                return value;
+                if (!Success) throw new InvalidOperationException("Cannot fetch value on a failed result");
+
+                return _value;
             }
+
+            private set { _value = value; }
         }
 
-        protected internal Result(T value, bool isSuccess, string error) : base(isSuccess, error)
+        protected internal Result(T value, bool success, Error error)
+            : base(success, error)
         {
-            this.value = value;
+            if (value == null && success) throw new InvalidOperationException("Pass a value if result is successful");
+
+            Value = value;
+        }
+
+        public static implicit operator Result<T>(T from)
+        {
+            return Ok(from);
+        }
+
+        public static implicit operator T(Result<T> from)
+        {
+            return from.Value;
         }
     }
 }

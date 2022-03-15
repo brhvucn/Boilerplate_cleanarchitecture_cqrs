@@ -41,6 +41,7 @@ namespace Centisoft.API
                 options.AddPolicy("Open", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             });
             services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<IDispatcher, Dispatcher>();
             services.AddApplicationServices();
         }
 

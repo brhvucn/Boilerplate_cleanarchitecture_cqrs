@@ -10,5 +10,6 @@ namespace Centisoft.Application.Contracts.Persistence
 {
     public interface ICompanyRepository : IAsyncRepository<Company>
     {
+        Task<List<Company>> GetAllAsync();
     }
 }

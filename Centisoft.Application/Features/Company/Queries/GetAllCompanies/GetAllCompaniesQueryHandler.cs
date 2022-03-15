@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Centisoft.Application.Contracts.Persistence;
 using Centisoft.Application.Features.Company.Dto;
-using MediatR;
+using Centisoft.Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Centisoft.Application.Features.Company.Queries.GetAllCompanies
 {
-    public class GetAllCompaniesQueryHandler : IRequestHandler<GetAllCompaniesQuery, List<CompanyDto>>
+    public class GetAllCompaniesQueryHandler : IQueryHandler<GetAllCompaniesQuery, CollectionResponseBase<CompanyDto>>
     {
         private ICompanyRepository companyRepository;
         private IMapper mapper;
@@ -20,7 +20,8 @@ namespace Centisoft.Application.Features.Company.Queries.GetAllCompanies
             this.companyRepository = companyRepository;
             this.mapper = mapper;
         }
-        public async Task<List<CompanyDto>> Handle(GetAllCompaniesQuery request, CancellationToken cancellationToken)
+
+        public async Task<Result<CollectionResponseBase<CompanyDto>>> Handle(GetAllCompaniesQuery query, CancellationToken cancellationToken = default)
         {
             List<CompanyDto> result = new List<CompanyDto>();
             var companies = await this.companyRepository.GetAllAsync();
@@ -28,13 +29,16 @@ namespace Centisoft.Application.Features.Company.Queries.GetAllCompanies
             {
                 var mappedCompany = mapper.Map<CompanyDto>(company);
                 //handle the contacts
-                foreach(var contact in company.Contacts)
+                foreach (var contact in company.Contacts)
                 {
                     var mappedContact = mapper.Map<ContactDto>(contact);
                 }
                 result.Add(mappedCompany);
             }
-            return result;
-        }
+            return new CollectionResponseBase<CompanyDto>()
+            {
+                Data = result
+            };
+        }        
     }
 }

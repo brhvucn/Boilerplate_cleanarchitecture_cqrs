@@ -9,11 +9,12 @@ using System.Threading.Tasks;
 
 namespace Centisoft.Application.Features.Company.Queries.GetCompany
 {
-    public class GetCompanyQuery : IRequest<CompanyDto>
+    public class GetCompanyQuery : IQuery<CompanyDto>
     {
         public GetCompanyQuery(int companyId)
         {
-            this.CompanyId = Ensure.That(companyId, nameof(companyId)).IsGt(0).Value;            
+            Ensure.That(companyId, nameof(companyId)).IsGt(0);            
+            CompanyId = companyId;
         }
         public int CompanyId { get; private set; }
     }

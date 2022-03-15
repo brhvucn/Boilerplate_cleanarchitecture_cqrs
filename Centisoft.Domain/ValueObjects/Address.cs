@@ -23,16 +23,10 @@ namespace Centisoft.Domain.ValueObjects
 
         public static Result<Address> Create(string street, string city, string zipcode)
         {
-            try
-            {
                 Ensure.That(street, nameof(street)).IsNotNullOrEmpty();
                 Ensure.That(city, nameof(city)).IsNotNullOrEmpty();
                 Ensure.That(zipcode, nameof(zipcode)).IsNotNullOrEmpty();
                 return Result.Ok<Address>(new Address(street, city, zipcode)); 
-            }catch(Exception ex)
-            {
-                return Result.Fail<Address>("Could not create an address. ", ex);
-            }
         }
         protected override IEnumerable<object> GetEqualityComponents()
         {

@@ -17,11 +17,12 @@ namespace Centisoft.Application.Features.Company.Dto
             Email = email;
             ZipCode = zip;
         }
-        public int Id { get; private set; }
-        public string Name { get; private set; }
-        public string Street { get; private set; }
-        public string City { get; private set; }
-        public string ZipCode { get; private set; }
-        public string Email { get; private set; }
+        public CompanyDto() { }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Street { get; set; }
+        public string City { get; set; }
+        public string ZipCode { get; set; }
+        public string Email { get; set; }
     }
 }

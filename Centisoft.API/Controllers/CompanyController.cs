@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using Centisoft.API.Utilities;
+using Centisoft.Application;
+using Centisoft.Application.Features.Company.Commands;
 using Centisoft.Application.Features.Company.Dto;
 using Centisoft.Application.Features.Company.Queries.GetAllCompanies;
 using Centisoft.Application.Features.Company.Queries.GetCompany;
-using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -16,27 +17,40 @@ namespace Centisoft.API.Controllers
     public class CompanyController : BaseController
     {
         private IMapper mapper;
-        private IMediator mediator;
-        public CompanyController(IMapper mapper, IMediator mediator)
+        private IDispatcher dispatcher;
+        public CompanyController(IMapper mapper, IDispatcher dispatcher)
         {
-            this.mediator = mediator;
+            this.dispatcher = dispatcher;
             this.mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<CompanyDto>>> GetCompanies()
+        public async Task<IActionResult> GetCompanies()
         {
             GetAllCompaniesQuery query = new GetAllCompaniesQuery();
-            var result = await this.mediator.Send(query);
-            return Ok(result);
+            var result = await this.dispatcher.Dispatch(query);
+            return FromResult(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveCompany(CreateCompanyRequest companyRequest)
+        {
+            CreateCompanyCommand command = new CreateCompanyCommand(
+                companyRequest.Name,
+                companyRequest.Street,
+                companyRequest.City,
+                companyRequest.ZipCode,
+                companyRequest.Email);           
+            var result = await this.dispatcher.Dispatch(command);
+            return FromResult(result);
         }
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<CompanyDto>> GetCompany(int id)
+        public async Task<IActionResult> GetCompany(int id)
         {
-            var result = await this.mediator.Send(new GetCompanyQuery(id));
-            return Ok(result);
+            var result = await this.dispatcher.Dispatch(new GetCompanyQuery(id));
+            return FromResult(result);
         }
     }
 }

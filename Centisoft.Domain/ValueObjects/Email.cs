@@ -31,15 +31,15 @@ namespace Centisoft.Domain.ValueObjects
             email = (email ?? string.Empty).Trim();
             if (isRequired && string.IsNullOrEmpty(email))
             {
-                return Result.Fail<Email>("The email must have a value");
+                return Result.Fail<Email>(Errors.General.ValueIsRequired(nameof(email)));
             }
             if (email.Length >= 100)
             {
-                return Result.Fail<Email>("The email must be less than 100 characters");
+                return Result.Fail<Email>(Errors.General.ValueTooLarge(nameof(email),100));
             }
             if (!Regex.IsMatch(email, @"^(.+)@(.+)$"))
             {
-                return Result.Fail<Email>("The email is invalid formatted");
+                return Result.Fail<Email>(Errors.General.UnexpectedValue(nameof(email)));
             }
             return Result.Ok<Email>(new Email(email));
         }

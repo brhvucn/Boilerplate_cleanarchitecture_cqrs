@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Centisoft.Application.Contracts.Persistence;
 using Centisoft.Application.Features.Company.Dto;
+using Centisoft.Domain.Common;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Centisoft.Application.Features.Company.Queries.GetCompany
 {
-    public class GetCompanyQueryHandler : IRequestHandler<GetCompanyQuery, CompanyDto>
+    public class GetCompanyQueryHandler : IQueryHandler<GetCompanyQuery, CompanyDto>
     {
         private IMapper mapper;
         private ICompanyRepository companyRepository;
@@ -21,11 +22,11 @@ namespace Centisoft.Application.Features.Company.Queries.GetCompany
             this.companyRepository = companyRepository;
         }
 
-        public async Task<CompanyDto> Handle(GetCompanyQuery request, CancellationToken cancellationToken)
+        public async Task<Result<CompanyDto>> Handle(GetCompanyQuery query, CancellationToken cancellationToken = default)
         {
-            var company = await this.companyRepository.GetByIdAsync(request.CompanyId);
+            var company = await this.companyRepository.GetByIdAsync(query.CompanyId);
             var companyDto = this.mapper.Map<CompanyDto>(company);
-            return companyDto;
+            return Result.Ok(companyDto);
         }
     }
 }

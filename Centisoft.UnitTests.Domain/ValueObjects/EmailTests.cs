@@ -11,35 +11,35 @@ namespace Centisoft.UnitTests.Domain.ValueObjects
         public void Create_Valid_Email()
         {
             var email = Email.Create("valid@email.com");
-            Assert.IsTrue(email.IsSuccess);
+            Assert.IsTrue(email.Success);
         }
 
         [TestMethod]
         public void Create_Invalid_Email()
         {
             var email = Email.Create("invalidemail"); //invalid, does not follow pattern
-            Assert.IsTrue(email.IsFailure);
+            Assert.IsTrue(email.Failure);
         }
 
         [TestMethod]
         public void Create_Invalid_Email_given_empty()
         {
             var email = Email.Create(""); //invalid empty  
-            Assert.IsTrue(email.IsFailure);
+            Assert.IsTrue(email.Failure);
         }
 
         [TestMethod]
         public void Create_Invalid_Email_given_null()
         {
             var email = Email.Create(null);//invalid null
-            Assert.IsTrue(email.IsFailure);
+            Assert.IsTrue(email.Failure);
         }
 
         [TestMethod]
         public void Create_Invalid_Email_Too_Long()
         {
             var email = Email.Create(StringRandom.GetRandomString(101));
-            Assert.IsTrue(email.IsFailure);
+            Assert.IsTrue(email.Failure);
         }
 
         [TestMethod]

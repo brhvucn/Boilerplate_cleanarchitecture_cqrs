@@ -19,7 +19,7 @@ namespace Centisoft.UnitTests.Domain.ValueObjects
             string city = StringRandom.GetRandomString(10);
             string zipcode = StringRandom.GetRandomString(10);
             var email = Address.Create(street, city, zipcode);
-            Assert.IsTrue(email.IsSuccess);
+            Assert.IsTrue(email.Success);
         }
 
         [TestMethod]
@@ -29,7 +29,7 @@ namespace Centisoft.UnitTests.Domain.ValueObjects
         public void Create_Invalid_Address_EmptyParameter(string street, string city, string zipcode)
         {
             var result = Address.Create(street, city, zipcode);
-            Assert.IsTrue(result.IsFailure);
+            Assert.IsTrue(result.Failure);
         }
     }
 }
