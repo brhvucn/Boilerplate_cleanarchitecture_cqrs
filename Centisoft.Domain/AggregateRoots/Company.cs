@@ -29,6 +29,12 @@ namespace Centisoft.Domain.AggregateRoots
             
         }
 
+        public void AddContact(Contact contact)
+        {
+            Ensure.That(contact, nameof(contact)).IsNotNull();
+            this.Contacts.Add(contact);
+        }
+
         public Company() 
         {
             this.Contacts = new List<Contact>();
