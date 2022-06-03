@@ -11,7 +11,9 @@ using Centisoft.Domain.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using static Centisoft.Application.Features.Company.Commands.CreateCompany.CreateCompanyRequest;
 
 namespace Centisoft.API.Controllers
 {
@@ -38,14 +40,25 @@ namespace Centisoft.API.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveCompany(CreateCompanyRequest companyRequest)
         {
-            CreateCompanyCommand command = new CreateCompanyCommand(
-                companyRequest.Name,
-                companyRequest.Street,
-                companyRequest.City,
-                companyRequest.ZipCode,
-                companyRequest.Email);
-            var result = await this.dispatcher.Dispatch(command);
-            return FromResult(result);
+            //validate the incoming request before it is being persisted
+            CreateCompanyRequest.Validator validator = new CreateCompanyRequest.Validator();
+            var result = validator.Validate(companyRequest);
+            if (result.IsValid)
+            {
+                CreateCompanyCommand command = new CreateCompanyCommand(
+                    companyRequest.Name,
+                    companyRequest.Street,
+                    companyRequest.City,
+                    companyRequest.ZipCode,
+                    companyRequest.Email);
+                var commandResult = await this.dispatcher.Dispatch(command);
+                return FromResult(commandResult);
+            }
+            else
+            {
+                List<string> errors = result.Errors.Select(x => x.ErrorMessage).ToList();
+                return Error(errors);
+            }
         }
 
         [HttpGet]

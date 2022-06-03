@@ -4,6 +4,7 @@ using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Centisoft.API.Controllers
@@ -20,6 +21,12 @@ namespace Centisoft.API.Controllers
         protected ActionResult Ok<T>(T result)
         {
             return base.Ok(Envelope.Ok(result));
+        }
+
+        protected ActionResult Error(List<string> errorMessages)
+        {
+            string errors = string.Join(";", errorMessages);
+            return BadRequest(Envelope.Error(errors));
         }
 
         protected ActionResult Error(string errorMessage)
