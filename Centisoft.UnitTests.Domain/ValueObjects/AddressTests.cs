@@ -27,9 +27,9 @@ namespace Centisoft.UnitTests.Domain.ValueObjects
         [DataRow("teststreet", "", "testzip")]
         [DataRow("teststreet", "testcity", "")]
         public void Create_Invalid_Address_EmptyParameter(string street, string city, string zipcode)
-        {
-            var result = Address.Create(street, city, zipcode);
-            Assert.IsTrue(result.Failure);
+        {            
+            Action action = new Action(()=>Address.Create(street, city, zipcode));
+            Assert.ThrowsException<ArgumentException>(action);
         }
     }
 }
