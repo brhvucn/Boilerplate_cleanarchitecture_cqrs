@@ -1,4 +1,6 @@
 ﻿using Centisoft.Application.Contracts.Persistence;
+using Centisoft.Application.DomainEvents.CompanyCreated;
+using Centisoft.Application.DomainEvents.Contracts;
 using Centisoft.Domain.Common;
 using Centisoft.Domain.ValueObjects;
 using MediatR;
@@ -14,9 +16,11 @@ namespace Centisoft.Application.Features.Company.Commands.CreateCompany
     public class CreateCompanyCommandHandler : ICommandHandler<CreateCompanyCommand>
     {
         private ICompanyRepository companyRepository;
-        public CreateCompanyCommandHandler(ICompanyRepository companyRepository)
+        private IEventDispatcher eventDispatcher;
+        public CreateCompanyCommandHandler(ICompanyRepository companyRepository, IEventDispatcher eventDispatcher)
         {
             this.companyRepository = companyRepository;
+            this.eventDispatcher = eventDispatcher;
         }
 
         public async Task<Result> Handle(CreateCompanyCommand command, CancellationToken cancellationToken = default)
@@ -28,8 +32,11 @@ namespace Centisoft.Application.Features.Company.Commands.CreateCompany
             if (emailResult.Failure) return emailResult;
 
             var company = new Domain.AggregateRoots.Company(command.Name, addressResult.Value, emailResult.Value);
-            var companyId = await this.companyRepository.AddAsync(company);
-            return Result.Ok(companyId);
+            //var companyId = await this.companyRepository.AddAsync(company);
+            //send the domain event for customercreated
+            await this.eventDispatcher.DispatchAsync(new CompanyCreatedEvent(company));
+            //return Result.Ok(companyId);
+            return Result.Ok(5);
         }        
     }
 }
