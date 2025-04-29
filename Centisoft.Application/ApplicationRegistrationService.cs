@@ -1,4 +1,7 @@
-﻿using MediatR;
+﻿using Centisoft.Application.DomainEvents;
+using Centisoft.Application.DomainEvents.CompanyCreated;
+using Centisoft.Application.DomainEvents.Contracts;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -17,6 +20,10 @@ namespace Centisoft.Application
             services.AddMediatR(Assembly.GetExecutingAssembly());
 
             services.AddScoped<IDispatcher>(sp=> new Dispatcher(sp.GetService<IMediator>()));
+            //domain events - customer
+            services.AddSingleton<IEventDispatcher, EventDispatcher>();
+            services.AddScoped<IEventHandler<CompanyCreatedEvent>, CompanyCreatedSendEmailEventHandler>();
+            services.AddScoped<IEventHandler<CompanyCreatedEvent>, CompanyCreatedSendWebhookEventHandler>();
 
             return services;
         }
