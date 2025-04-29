@@ -25,6 +25,8 @@ CentiSoft is a small company that builds a CRM system and sells it to their cust
 
 [Aggregate Root Design: Separate behavior and data for persistence](https://www.youtube.com/watch?v=GtWVGJp061A)
 
+[Domain Events](https://learn.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/domain-events-design-implementation)
+
 # Exercise - 1
 The purpose of this exercise is to make yourself familiar with the structure in an application / project that is using the CQRS architecture. Look at the Command and Queries and think about why adding new files is making a more resilient application (less error prone) and how this will help in not exponentially increase the complexity / amounts of test each time a new features is added, but rather keep a liniar growth in complexity.
 
