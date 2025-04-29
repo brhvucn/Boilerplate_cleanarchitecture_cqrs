@@ -32,11 +32,10 @@ namespace Centisoft.Application.Features.Company.Commands.CreateCompany
             if (emailResult.Failure) return emailResult;
 
             var company = new Domain.AggregateRoots.Company(command.Name, addressResult.Value, emailResult.Value);
-            //var companyId = await this.companyRepository.AddAsync(company);
+            var companyId = await this.companyRepository.AddAsync(company);
             //send the domain event for customercreated
             await this.eventDispatcher.DispatchAsync(new CompanyCreatedEvent(company));
-            //return Result.Ok(companyId);
-            return Result.Ok(5);
+            return Result.Ok(companyId);            
         }        
     }
 }
